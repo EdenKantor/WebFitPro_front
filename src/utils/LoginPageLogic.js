@@ -22,7 +22,7 @@ export const useLoginLogic = () => {
       return;
     }
 
-    const url = `https://web-fit-pro-back.vercel.app/api/login?username=${username}&password=${password}`;
+    const url = `https://web-fit-pro-back-rose.vercel.app/api/login?username=${username}&password=${password}`;
 
     try {
       const response = await fetch(url, { method: 'GET' });

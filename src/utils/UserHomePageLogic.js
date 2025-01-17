@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 
 // API URL for fetching quotes
-const url = "https://web-fit-pro-back.vercel.app/api/homepage"; 
+const url = "https://web-fit-pro-back-rose.vercel.app/api/homepage"; 
 
 export const useUserHomePageLogic = () => {
   // State variables

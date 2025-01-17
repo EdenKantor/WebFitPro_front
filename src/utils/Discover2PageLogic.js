@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 
-const apiUrl = "https://web-fit-pro-back.vercel.app/api/discover";
+const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/discover";
 
 export const useDiscover2PageLogic = () => {
   // Workout Video Data

@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 
 // API URL
-const apiUrl = "https://web-fit-pro-back.vercel.app/api/myInfo"; 
+const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/myInfo"; 
 
 export const useInfoPageLogic = () => {
   // States for data

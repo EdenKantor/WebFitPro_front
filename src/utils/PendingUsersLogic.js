@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 
-const apiUrl = "https://web-fit-pro-back.vercel.app/api/pendingUsers";
+const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/pendingUsers";
 
 export const usePendingUsersLogic = () => {
     const [pendingUsers, setPendingUsers] = useState([]);
@@ -9,7 +9,7 @@ export const usePendingUsersLogic = () => {
 
     const fetchPendingUsers = async () => {
         try {
-            const response = await fetch("https://web-fit-pro-back.vercel.app/api/pendingUsers", {
+            const response = await fetch("https://web-fit-pro-back-rose.vercel.app/api/pendingUsers", {
                 method: "GET",
             });
             const data = await response.json();

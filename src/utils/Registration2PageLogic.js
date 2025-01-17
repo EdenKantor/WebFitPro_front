@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 
 // API URL
-const url = "https://web-fit-pro-back.vercel.app/api/register";
+const url = "https://web-fit-pro-back-rose.vercel.app/api/register";
 
 export const useRegistration2Logic = () => {
   // States

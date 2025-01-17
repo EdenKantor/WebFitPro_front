@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 
-const apiUrl = "https://web-fit-pro-back.vercel.app/api/continueRoutine";
+const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/continueRoutine";
 
 export const useContinueRoutineLogic = () => {
   // Workout Video Data
