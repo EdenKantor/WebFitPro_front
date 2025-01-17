@@ -22,7 +22,7 @@ export const useManageUsersLogic = () => {
    // Function to load users from server
    const fetchUsers = async () => {
        try {
-           const response = await fetch('https://web-fit-pro-back.vercel.app/api/manageUsers', {
+           const response = await fetch('https://web-fit-pro-back-rose.vercel.app/api/manageUsers', {
                method: 'GET' 
            });
            const data = await response.json();
@@ -41,7 +41,7 @@ export const useManageUsersLogic = () => {
    const updateUser = async (userName, updates, isActive) => {
        try {
            // Send update request to server
-           await fetch(`https://web-fit-pro-back.vercel.app/api/manageUsers?username=${userName}`, {
+           await fetch(`https://web-fit-pro-back-rose.vercel.app/api/manageUsers?username=${userName}`, {
                method: 'PATCH',
                body: JSON.stringify(updates),
            });
@@ -85,7 +85,7 @@ export const useManageUsersLogic = () => {
    const deleteUser = async (userName) => {
        try {
            // Send delete request to server
-           const response =  await fetch(`https://web-fit-pro-back.vercel.app/api/manageUsers?username=${userName}`, {
+           const response =  await fetch(`https://web-fit-pro-back-rose.vercel.app/api/manageUsers?username=${userName}`, {
                method: 'DELETE',
            });
 
