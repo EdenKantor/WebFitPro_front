@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks";
+import { getFromSessionStorage } from "../utils/LocalSessionHelper";
 
 const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/discover";
 
@@ -10,6 +11,19 @@ export const useDiscover2PageLogic = () => {
   const [chosenBodyPart, setBodyPart] = useState("");
   const [selectedSortParam, setSelectedSort] = useState("- Sort by -");
   const [errorMessage, setErrorMessage] = useState(""); // State for error messages
+
+  const [loading, setLoading] = useState(true);
+
+  // Retrieve data from session storage about who is the user
+  // And what is the body part he selcted in Discover1Page
+  const userData = getFromSessionStorage("signedUserData");
+  const bodyAreaChoice = getFromSessionStorage("bodyAreaChoice");
+
+  const userName = userData?.userName || "";
+  const bodyArea = bodyAreaChoice?.bodyArea || "Unknown";
+
+  const [isSorting, setIsSorting] = useState(false); // State for sorting spinner
+
 
   // Fetch user session info from backend
   const fetchBodyPartVideos = async (userName, bodyPart) => {
@@ -30,6 +44,22 @@ export const useDiscover2PageLogic = () => {
       }
     } catch (error) {
       setErrorMessage("Network error. Please check your connection.");
+    }
+  };
+
+
+  const loadUserData = async () => {
+    if (userName && bodyArea) {
+      await fetchBodyPartVideos(userName, bodyArea);
+      setLoading(false);
+    }
+  };
+
+  const changeVideosOrderAfterSort = async () => {
+    if (selectedSortParam !== "- Sort by -") {
+      setIsSorting(true); // Show sorting spinner
+      await fetchSortedVideos();
+      setIsSorting(false); // Hide sorting spinner
     }
   };
 
@@ -108,9 +138,13 @@ export const useDiscover2PageLogic = () => {
     setSelectedSort,
     workouts,
     likeArray,
-    fetchBodyPartVideos,
     handleLike,
-    fetchSortedVideos,
     errorMessage,
+    loading,
+    userName,
+    bodyArea,
+    loadUserData,
+    isSorting,
+    changeVideosOrderAfterSort,
   };
 };
