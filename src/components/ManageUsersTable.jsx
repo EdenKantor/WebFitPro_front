@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import ActionButton from "../components/ActionButton";
 import FormField from "../components/FormField";
 import UserCard from "./UserCard";
@@ -12,6 +12,13 @@ const ManageUsersTable = ({ users = [], onUpdate, onDeleteClick }) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   
   const filteredUsers = users.filter((user) => user.userName !== "admin");
+
+  useEffect(() => {
+    // If current index is out of bounds, reset to last valid index
+    if (currentCardIndex >= filteredUsers.length) {
+      setCurrentCardIndex(Math.max(0, filteredUsers.length - 1));
+    }
+  }, [filteredUsers]);
 
   const handleInputChange = (userName, field, value) => {
     if (/^[1-9]\d*$/.test(value)) {
@@ -136,7 +143,7 @@ const ManageUsersTable = ({ users = [], onUpdate, onDeleteClick }) => {
 
       {/* Mobile/Tablet view - cards */}
       <div className="lg:hidden">
-        {filteredUsers.length > 0 && (
+        {filteredUsers.length > 0 && currentCardIndex < filteredUsers.length &&(
           <>
             <UserCard
               user={filteredUsers[currentCardIndex]}
