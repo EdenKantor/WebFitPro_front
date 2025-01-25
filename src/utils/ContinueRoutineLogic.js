@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks";
+import { getFromSessionStorage } from "../utils/LocalSessionHelper";
 
 const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/continueRoutine";
 
@@ -7,7 +8,14 @@ export const useContinueRoutineLogic = () => {
   const [workouts, setWorkouts] = useState([]);
   const [doneArray, setDoneArray] = useState([]);
   const [likeArray, setLikeArray] = useState([]);
-  const [userNameUser, setUsername] = useState("");
+
+  // Retrieve username from session storage
+  const userData = getFromSessionStorage("signedUserData");
+  const userName = userData?.userName || "";// Use empty string if no userName exists
+
+  // Loading circle status, changes when we finished loading videos
+  const [loading, setLoading] = useState(true);
+
 
   // Popup states
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +26,10 @@ export const useContinueRoutineLogic = () => {
   // Error state
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Fetch user session info from backend
+  /**
+   * Fetches initial user session information from the server.
+   * @param {string} userName - The username of the logged-in user.
+   */  
   const fetchUserSessionInfo = async (userName) => {
     try {
       const response = await fetch(
@@ -30,7 +41,6 @@ export const useContinueRoutineLogic = () => {
         setWorkouts(data.videos);
         setDoneArray(data.checks);
         setLikeArray(data.likes);
-        setUsername(userName);
         setErrorMessage(""); // Clear any previous error
       } else {
         setErrorMessage(data.message || "Failed to fetch user data.");
@@ -40,6 +50,21 @@ export const useContinueRoutineLogic = () => {
     }
   };
 
+  /**
+   * Loads user data from the backend if username exists.
+   */
+  const loadUserData = async () => {
+    if (userName) {
+      await fetchUserSessionInfo(userName);
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Updates the completion status of an exercise.
+   * @param {number} index - Index of the exercise in the list.
+   * @param {boolean} doneAction - Completion action (true/false).
+   */  
   const handleDone = async (index, doneAction) => {
     try {
       const response = await fetch(apiUrl, {
@@ -48,9 +73,9 @@ export const useContinueRoutineLogic = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userName: userNameUser,
+          userName: userName,
           index: index,
-          doneAction: doneAction,
+          doneAction: doneAction,// Action to update workout status
           action: "patchDone",
         }),
       });
@@ -67,6 +92,11 @@ export const useContinueRoutineLogic = () => {
     }
   };
 
+  /**
+   * Updates the like status of a specific video.
+   * @param {string} url - URL of the video.
+   * @param {boolean} likeAction - Like action (true/false).
+   */ 
   const handleLike = async (url, likeAction) => {
     try {
       const response = await fetch(apiUrl, {
@@ -75,9 +105,9 @@ export const useContinueRoutineLogic = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userName: userNameUser,
-          url: url,
-          likeAction: likeAction,
+          userName: userName,
+          url: url, // URL of the video to update like status
+          likeAction: likeAction, // Like or dislike action
           action: "patchLikes",
         }),
       });
@@ -94,24 +124,27 @@ export const useContinueRoutineLogic = () => {
     }
   };
 
+  /**
+   * Submits the exercise progress and checks if all are completed.
+   */
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `${apiUrl}?userName=${userNameUser}&action=getDoneVideoArray`,
+        `${apiUrl}?userName=${userName}&action=getDoneVideoArray`,
         { method: "GET" }
       );
       const data = await response.json();
 
       if (response.ok) {
-        if (data.counterChecks === 3) {
+        if (data.counterChecks === 3) { // Check if all exercises are completed
           setShowSuccess(true);
           setPopupMessage("Completed all exercises! Well done champ!");
-          setIsOpen(true);
+          setIsOpen(true); // Show the popup with "Completed" message
           setErrorMessage(""); // Clear error on success
         } else {
           setIsError(true);
           setPopupMessage("Almost there! Please complete all exercises.");
-          setIsOpen(true);
+          setIsOpen(true); // Show the popup with "almost done" message
         }
       } else {
         setErrorMessage(data.message || "Failed to submit exercises.");
@@ -120,7 +153,10 @@ export const useContinueRoutineLogic = () => {
       setErrorMessage("Network error. Please try again later.");
     }
   };
-
+  
+  /**
+   * Handles closing the popup window.
+   */
   const handlePopupClose = () => {
     if (showSuccess) {
       setIsOpen(false);
@@ -135,7 +171,6 @@ export const useContinueRoutineLogic = () => {
     workouts,
     doneArray,
     likeArray,
-    fetchUserSessionInfo,
     handleSubmit,
     handleLike,
     handleDone,
@@ -144,6 +179,9 @@ export const useContinueRoutineLogic = () => {
     popupMessage,
     showSuccess,
     isError,
+    userName,
     errorMessage, // Expose error message
+    loadUserData,
+    loading,
   };
 };
