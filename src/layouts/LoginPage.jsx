@@ -1,5 +1,4 @@
-import { useLocation } from 'wouter';
-import { useState } from "preact/hooks";
+import { useLocation } from "wouter";
 import { useLoginLogic } from "../utils/LoginPageLogic";
 import Title from "../components/Title";
 import ActionButton from "../components/ActionButton";
@@ -7,9 +6,10 @@ import UsernameInput from "../components/UsernameInput";
 import PasswordInput from "../components/PasswordInput";
 import Message from "../components/Message";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { saveToSessionStorage } from "../utils/LocalSessionHelper"; 
 
 const LoginPage = () => {
+  const [, navigate] = useLocation(); // Navigation hook for routing
+  
   const {
     username,
     setUsername,
@@ -18,44 +18,24 @@ const LoginPage = () => {
     isPasswordVisible,
     togglePasswordVisibility,
     message,
-    handleLogin,
-  } = useLoginLogic();
-
-  const [, navigate] = useLocation(); // Use Wouter's navigate
-  const [loading, setLoading] = useState(false); // Loading spinner state
-
-  // Handle Login Button Click
-  const handleLoginClick = async () => {
-    setLoading(true); // Start loading spinner
-
-    try {
-      await handleLogin(navigate); // Wait for login process to complete
-    } catch (error) {
-      console.error('Login error:', error); // Log unexpected errors
-    } finally {
-      setLoading(false); // Stop spinner after login process
-
-      // Save userData with the username input to sessionStorage
-      const signedUserData = {
-        userName: username,
-      };
-      saveToSessionStorage("signedUserData", signedUserData); // Save to sessionStorage
-
-      console.log("login Data Saved in SessionStorage: ", signedUserData); // Debugging log
-    }
-  };
+    handleLoginClick,
+    loading,
+  } = useLoginLogic(navigate); // Hook to manage login logic
 
   return (
     <div className="bg-white text-black dark:bg-gray-900 dark:text-white transition-all duration-300 min-h-screen">
       <div className="pt-20 flex flex-col items-center min-h-screen space-y-8 p-6">
+        {/* Page Title */}
         <Title text="Login to Your Account" />
         <div className="w-full max-w-sm space-y-6">
+          {/* Username Input */}
           <UsernameInput
             label="Username"
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+          {/* Password Input */}
           <PasswordInput
             label="Password"
             placeholder="Enter your password"
@@ -65,6 +45,7 @@ const LoginPage = () => {
             isPasswordVisible={isPasswordVisible}
           />
         </div>
+        {/* Show spinner or login button based on loading state */}
         {loading ? (
           <LoadingSpinner />
         ) : (
@@ -74,6 +55,7 @@ const LoginPage = () => {
             onClick={handleLoginClick}
           />
         )}
+        {/* Display login messages */}
         <Message message={message} />
       </div>
     </div>
