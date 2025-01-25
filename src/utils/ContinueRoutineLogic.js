@@ -158,13 +158,9 @@ export const useContinueRoutineLogic = () => {
    * Handles closing the popup window.
    */
   const handlePopupClose = () => {
-    if (showSuccess) {
       setIsOpen(false);
       setShowSuccess(false);
       setIsError(false);
-    } else {
-      setIsOpen(false);
-    }
   };
 
   return {
