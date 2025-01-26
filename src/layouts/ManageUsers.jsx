@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const ManageUsers = () => {
     const {
         users,
+        sortMode,
         updateUser,
         sortUsersByName,
         fetchUsers,
@@ -47,8 +48,8 @@ const ManageUsers = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
                     <Title text="Manage Users" className="mb-4 sm:mb-0" />
                     <ActionButton
-                        label="Sort by name"
-                        iconClass="fas fa-sort-alpha-down"
+                        label={sortMode === 'default' ? "Sort by Name" : "Sort by Creation Date"}
+                        iconClass={sortMode === 'default' ? "fas fa-sort-alpha-down" : "fas fa-clock"}
                         onClick={sortUsersByName}
                         className="text-xs sm:text-sm px-3 py-2  mt-3 sm:mt-0"
                     />
