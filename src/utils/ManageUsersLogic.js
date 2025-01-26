@@ -8,6 +8,8 @@ export const useManageUsersLogic = () => {
    const [originalUsers, setOriginalUsers] = useState([]);
    // Whether the table is currently sorted
    const [isSorted, setIsSorted] = useState(false);
+    // Track sorting state with more granularity
+   const [sortMode, setSortMode] = useState('default');
    // Sort direction (ascending or descending)
    const [sortDirection, setSortDirection] = useState("asc");
    // Whether to show delete popup
@@ -119,32 +121,33 @@ export const useManageUsersLogic = () => {
        setUserToDelete(null);
    };
 
-   // Helper function to sort users by name
-   const sortUsers = (usersToSort, direction) => {
-       return [...usersToSort].sort((a, b) =>
-           direction === "asc"
-               ? a.userName.localeCompare(b.userName)
-               : b.userName.localeCompare(a.userName)
-       );
-   };
+    // Helper function to sort users by name
+    const sortUsers = (usersToSort, direction = "asc") => {
+        return [...usersToSort].sort((a, b) =>
+            direction === "asc"
+                ? a.userName.localeCompare(b.userName)
+                : b.userName.localeCompare(a.userName)
+        );
+    };
 
-   // Function to sort table
-   const sortUsersByName = () => {
-       if (isSorted) {
-           // If already sorted - return to original state
-           setUsers([...originalUsers]);
-           setIsSorted(false);
-       } else {
-           // Sort users in ascending order
-           setUsers(sortUsers(users, "asc"));
-           setSortDirection("asc");
-           setIsSorted(true);
-       }
-   };
+    // Function to sort table
+    const sortUsersByName = () => {
+        if (sortMode === 'default') {
+            // Sort users alphabetically
+            const sortedUsers = sortUsers(users);
+            setUsers(sortedUsers);
+            setSortMode('alphabetical');
+        } else {
+            // Return to original list
+            setUsers([...originalUsers]);
+            setSortMode('default');
+        }
+    };
 
    // Return all required functions and State variables
    return {
        users,
+       sortMode,
        updateUser,
        sortUsersByName,
        fetchUsers,
