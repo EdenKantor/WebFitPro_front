@@ -6,7 +6,7 @@ import Title from '../components/Title';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const PendingUsers = () => {
-    const { pendingUsers, fetchPendingUsers, approveUser, sortUsersByName } = usePendingUsersLogic();
+    const { pendingUsers, fetchPendingUsers, approveUser, sortUsersByName, sortMode } = usePendingUsersLogic();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -37,8 +37,8 @@ const PendingUsers = () => {
                 <Title text="Pending Users" className="mb-4 sm:mb-0"/>
                 <div className="flex justify-end mb-4">
                     <ActionButton
-                        label="Sort by name"
-                        iconClass="fas fa-sort-alpha-down"
+                        label={sortMode === 'default' ? "Sort by Name" : "Sort by Creation Date"}
+                        iconClass={sortMode === 'default' ? "fas fa-sort-alpha-down" : "fas fa-clock"}
                         onClick={sortUsersByName}
                         className="text-xs sm:text-sm px-3 py-2  mt-3 sm:mt-0"
                     />
