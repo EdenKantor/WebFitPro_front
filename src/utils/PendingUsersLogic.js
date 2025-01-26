@@ -5,7 +5,7 @@ const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/pendingUsers";
 export const usePendingUsersLogic = () => {
     const [pendingUsers, setPendingUsers] = useState([]);
     const [originalPendingUsers, setOriginalPendingUsers] = useState([]); // Save the original list
-    const [isSorted, setIsSorted] = useState(false); // Whether the table is currently sorted
+    const [sortMode, setSortMode] = useState('default');
 
     const fetchPendingUsers = async () => {
         try {
@@ -53,18 +53,21 @@ export const usePendingUsersLogic = () => {
     };
 
     const sortUsersByName = () => {
-        if (isSorted) {
-            setPendingUsers([...originalPendingUsers]); // Reset to the unsorted state
-            setIsSorted(false);
-        } else {
-            const sortedUsers = sortUsers(pendingUsers); // Sort in ascending order
-            setPendingUsers(sortedUsers);
-            setIsSorted(true);
-        }
+        setSortMode(prevMode => {
+            if (prevMode === 'default') {
+                const sortedUsers = sortUsers(pendingUsers);
+                setPendingUsers(sortedUsers);
+                return 'alphabetical';
+            } else {
+                setPendingUsers([...originalPendingUsers]);
+                return 'default';
+            }
+        });
     };
 
     return {
         pendingUsers,
+        sortMode,
         fetchPendingUsers,
         approveUser,
         sortUsersByName,
