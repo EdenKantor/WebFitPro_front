@@ -1,28 +1,29 @@
-import { useState, useEffect } from 'preact/hooks';
+import {useEffect } from 'preact/hooks';
 import { usePendingUsersLogic } from '../utils/PendingUsersLogic';
 import UsersTable from '../components/UsersTable';
 import ActionButton from '../components/ActionButton';
 import Title from '../components/Title';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+/**
+ * Provides an interface for admin to:
+ * - View pending users
+ * - Approve individual users
+ * - Sort pending users list
+ */
 const PendingUsers = () => {
-    const { pendingUsers, fetchPendingUsers, approveUser, sortUsersByName, sortMode } = usePendingUsersLogic();
-    const [loading, setLoading] = useState(true);
+    // Initializes pending users logic and state
+    const { pendingUsers, fetchPendingUsers, approveUser, sortUsersByName, loading, sortMode, } = usePendingUsersLogic();
 
     useEffect(() => {
-        const loadUsers = async () => {
-            await fetchPendingUsers();
-            setLoading(false);
-        };
-        loadUsers();
+        fetchPendingUsers();
     }, []);
 
     const handleApprove = async (userName) => {
-        setLoading(true);
         await approveUser(userName);
-        setLoading(false);
     };
 
+    // Display a loading spinner while data is being fetched
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
