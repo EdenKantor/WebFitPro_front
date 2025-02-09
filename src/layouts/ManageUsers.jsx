@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 import { useManageUsersLogic } from '../utils/ManageUsersLogic';
 import ManageUsersTable from '../components/ManageUsersTable';
 import ActionButton from '../components/ActionButton';
@@ -6,9 +6,18 @@ import Title from '../components/Title';
 import Popup from '../components/Popup';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+/**
+ * Provides a comprehensive interface for admin to:
+ * - View all users
+ * - Sort users
+ * - Update user details
+ * - Delete users
+*/
 const ManageUsers = () => {
+    // Initializes manage users logic and state
     const {
         users,
+        loading,
         sortMode,
         updateUser,
         sortUsersByName,
@@ -23,17 +32,11 @@ const ManageUsers = () => {
         handleCloseUpdatePopup
     } = useManageUsersLogic();
 
-    const [loading, setLoading] = useState(true);
-
     useEffect(() => {
-        const loadUsers = async () => {
-            setLoading(true);
-            await fetchUsers();
-            setLoading(false);
-        };
-        loadUsers();
+        fetchUsers();
     }, []);
 
+    // Display a loading spinner while data is being fetched
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
