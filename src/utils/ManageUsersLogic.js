@@ -1,29 +1,39 @@
 import { useState } from 'preact/hooks';
 
+/**
+* This custom hook provides state management and core functionality for 
+ * handling user operations in an admin dashboard:
+ * - Fetching users from the server
+ * - Updating user information
+ * - Deleting users
+ * - Managing sorting and display states
+ */
 export const useManageUsersLogic = () => {
-   // State variables
-   // Current users array displayed in the table
+   /**
+    * State Management for User Operations
+    * 
+    * Key state variables:
+    * - users: Current list of users displayed in the table
+    * - originalUsers: Backup of initial user list for reverting sorting
+    * - sortMode: Manages current sorting state ('By Creation' or 'alphabetical')
+    * - showPopup: Controls visibility of delete confirmation popup
+    * - userToDelete: Stores username selected for deletion
+    * - showUpdatePopup: Controls visibility of user update success popup
+    * - loading: loading state during initial data fetching. 
+    */
    const [users, setUsers] = useState([]);
-   // Original users array - used to revert to initial state after sorting
    const [originalUsers, setOriginalUsers] = useState([]);
-   // Whether the table is currently sorted
-   const [isSorted, setIsSorted] = useState(false);
-    // Track sorting state with more granularity
    const [sortMode, setSortMode] = useState('default');
-   // Sort direction (ascending or descending)
-   const [sortDirection, setSortDirection] = useState("asc");
-   // Whether to show delete popup
    const [showPopup, setShowPopup] = useState(false);
-   // Username selected for deletion
    const [userToDelete, setUserToDelete] = useState(null);
-   // Whether to show update success popup
    const [showUpdatePopup, setShowUpdatePopup] = useState(false);
-   // Username that was successfully updated
    const [updatedUserName, setUpdatedUserName] = useState(null);
+   const [loading, setLoading] = useState(true);
 
    // Function to load users from server
    const fetchUsers = async () => {
        try {
+           setLoading(true);
            const response = await fetch('https://web-fit-pro-back-rose.vercel.app/api/manageUsers', {
                method: 'GET' 
            });
@@ -37,6 +47,9 @@ export const useManageUsersLogic = () => {
            setUsers([]);
            setOriginalUsers([]);
        }
+       finally {
+            setLoading(false);
+    }
    };
    
    // Function to update user
@@ -55,8 +68,8 @@ export const useManageUsersLogic = () => {
                    user.userName === userName ? { ...user, ...updates } : user
                );
                // If table is sorted - maintain sorting
-               return isSorted 
-                   ? sortUsers(updatedUsers, sortDirection) 
+               return sortMode === 'alphabetical' 
+                   ? sortUsers(updatedUsers) 
                    : updatedUsers;
            });
 
@@ -147,6 +160,7 @@ export const useManageUsersLogic = () => {
    // Return all required functions and State variables
    return {
        users,
+       loading,
        sortMode,
        updateUser,
        sortUsersByName,
