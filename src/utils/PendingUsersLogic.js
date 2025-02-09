@@ -2,13 +2,29 @@ import { useState } from "preact/hooks";
 
 const apiUrl = "https://web-fit-pro-back-rose.vercel.app/api/pendingUsers";
 
+/**
+ * Provides state management and core functionality for:
+ * - Fetching pending users
+ * - Approving users
+ * - Sorting pending users list
+ */
 export const usePendingUsersLogic = () => {
+    /**
+     * Key state variables:
+     * - pendingUsers: Current list of pending users
+     * - originalPendingUsers: Backup of initial user list for reverting sorting
+     * - sortMode: Manages current sorting state ('by Creation' or 'alphabetical')
+     * - loading: loading state during initial data fetching. 
+     */
     const [pendingUsers, setPendingUsers] = useState([]);
     const [originalPendingUsers, setOriginalPendingUsers] = useState([]); // Save the original list
     const [sortMode, setSortMode] = useState('default');
+    const [loading, setLoading] = useState(true);
 
+    // Fetches pending users from the data base
     const fetchPendingUsers = async () => {
         try {
+            setLoading(true);
             const response = await fetch("https://web-fit-pro-back-rose.vercel.app/api/pendingUsers", {
                 method: "GET",
             });
@@ -20,8 +36,12 @@ export const usePendingUsersLogic = () => {
             setPendingUsers([]);
             setOriginalPendingUsers([]);
         }
+        finally {
+            setLoading(false);
+        }
     };
 
+    // Approves a pending user moving them to active status
     const approveUser = async (userName) => {
         try {
             const response = await fetch(apiUrl, {
@@ -52,6 +72,7 @@ export const usePendingUsersLogic = () => {
         );
     };
 
+    // Sorts users alphabetically or by Creation (default)
     const sortUsersByName = () => {
         setSortMode(prevMode => {
             if (prevMode === 'default') {
@@ -68,6 +89,7 @@ export const usePendingUsersLogic = () => {
     return {
         pendingUsers,
         sortMode,
+        loading,
         fetchPendingUsers,
         approveUser,
         sortUsersByName,
