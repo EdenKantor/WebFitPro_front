@@ -1,6 +1,7 @@
 import FormField from "../components/FormField";
 import ActionButton from "../components/ActionButton";
 
+// Displays user information in a card format with optional editing capabilities
 const UserCard = ({ 
   user, 
   editData, 
