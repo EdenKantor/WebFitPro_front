@@ -47,7 +47,7 @@ const UsersTable = ({ users = [], onApprove }) => {
     <div>
       {/* Desktop view - table */}
       <div className="hidden lg:block overflow-x-auto shadow-md rounded-lg">
-        <table className="min-w-full bg-white dark:bg-gray-800">
+        <table className="min-w-full bg-gray-50 dark:bg-gray-800">
           <PendingTableHeader />
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {users.map((user) => (
