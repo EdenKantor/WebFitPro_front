@@ -16,7 +16,7 @@ const UserCard = ({
   showFields = true
 }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-4">
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-4 mb-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">{user.userName}</h3>
         <span className={`px-2 py-1 text-sm font-medium rounded-full ${
