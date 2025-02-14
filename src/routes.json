@@ -1,0 +1,52 @@
+{
+    "routes": [
+      {
+        "path": "/",
+        "component": "FirstPage"
+      },
+      {
+        "path": "/login",
+        "component": "LoginPage"
+      },
+      {
+        "path": "/register1",
+        "component": "Registration1Page"
+      },
+      {
+        "path": "/register2",
+        "component": "Registration2Page"
+      },
+      {
+        "path": "/user-home",
+        "component": "UserHomePage"
+      },
+      {
+        "path": "/discover1",
+        "component": "Discover1Page"
+      },
+      {
+        "path": "/discover2",
+        "component": "Discover2Page"
+      },
+      {
+        "path": "/my-info",
+        "component": "InfoPage"
+      },
+      {
+        "path": "/routine",
+        "component": "ContinueRoutine"
+      },
+      {
+        "path": "/PendingUsers",
+        "component": "PendingUsers"
+      },
+      {
+        "path": "/ManageUsers",
+        "component": "ManageUsers"
+      },
+      {
+        "path": "/NotSoFast",
+        "component": "NotSoFast"
+      }
+    ]
+  }
