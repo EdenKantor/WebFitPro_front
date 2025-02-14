@@ -1,7 +1,12 @@
 import { Route, Switch } from 'wouter';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { getRoutes } from '../utils/routeUtils';
+import { getRoutes } from '../utils/RouteUtils';
 
+/**
+ * AppRoutes Component
+ * Manages all routing in the application and handles page transition animations
+ * 
+ */
 function AppRoutes() {
   const routes = getRoutes();
 
