@@ -51,7 +51,7 @@ const ManageUsersTable = ({ users = [], onUpdate, onDeleteClick }) => {
     <div>
       {/* Desktop view */}
       <div className="hidden lg:block overflow-x-auto shadow-md rounded-lg">
-        <table className="min-w-full bg-white dark:bg-gray-800">
+        <table className="min-w-full bg-gray-50 dark:bg-gray-800">
           <TableHeader />
           <tbody>
             {filteredUsers.map((user) => (
