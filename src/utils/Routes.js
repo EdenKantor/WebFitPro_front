@@ -13,8 +13,14 @@ import ManageUsers from '../layouts/ManageUsers';
 import NotSoFast from '../layouts/NotSoFast';
 
 /**
- * Routes.js manages all application routes in one place.
- * This keeps `App.jsx` clean and makes it easier to add or modify routes.
+ * Application Routes Configuration
+ * 
+ * This file centralizes all route definitions for the application.
+ * It exports an array of route objects, each containing:
+ *  - `path`: The URL path.
+ *  - `component`: The corresponding page/component to render.
+ * 
+ * This structure keeps routing logic clean and easy to maintain.
  */
 const routes = [
   { path: "/", component: FirstPage },
@@ -31,16 +37,4 @@ const routes = [
   { path: "/NotSoFast", component: NotSoFast }
 ];
 
-/**
- * RouterConfig renders all defined routes.
- * It uses `Switch` from Wouter to handle route switching efficiently.
- */
-const RouterConfig = () => (
-  <Switch>
-    {routes.map(({ path, component }) => (
-      <Route key={path} path={path} component={component} />
-    ))}
-  </Switch>
-);
-
-export default RouterConfig;
+export default routes;
