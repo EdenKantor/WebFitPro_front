@@ -12,6 +12,10 @@ import PendingUsers from '../layouts/PendingUsers';
 import ManageUsers from '../layouts/ManageUsers';
 import NotSoFast from '../layouts/NotSoFast';
 
+/**
+ * Routes.js manages all application routes in one place.
+ * This keeps `App.jsx` clean and makes it easier to add or modify routes.
+ */
 const routes = [
   { path: "/", component: FirstPage },
   { path: "/login", component: LoginPage },
@@ -27,6 +31,10 @@ const routes = [
   { path: "/NotSoFast", component: NotSoFast }
 ];
 
+/**
+ * RouterConfig renders all defined routes.
+ * It uses `Switch` from Wouter to handle route switching efficiently.
+ */
 const RouterConfig = () => (
   <Switch>
     {routes.map(({ path, component }) => (
