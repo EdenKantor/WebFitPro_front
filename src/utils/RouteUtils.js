@@ -12,7 +12,11 @@ import ManageUsers from '../layouts/ManageUsers';
 import NotSoFast from '../layouts/NotSoFast';
 import routes from '../routes.json';
 
-// Map component names to actual components
+/**
+ * Maps component names to their actual component references
+ * Enables dynamic conversion from component names to their instances
+ * This mapping is used to convert route configuration from JSON to actual components
+ */
 const componentMap = {
   FirstPage,
   LoginPage,
