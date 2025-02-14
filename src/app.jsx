@@ -14,7 +14,7 @@ function App() {
       <TopBar />
       <TransitionGroup>
         <CSSTransition key={location.key} timeout={500} classNames="fade">
-          <RouterConfig />
+          {RouterConfig}
         </CSSTransition>
       </TransitionGroup>
     </div>
