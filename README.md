@@ -80,8 +80,10 @@ The backend requires a MongoDB connection string to function properly.
    MONGODB_URI=your-mongodb-uri
    ```
 
-   > **You can use our MongoDB Connection String:**
-   > `MONGODB_URI=mongodb+srv://User1:Group10@webfitpro-cluster.alf8p.mongodb.net/webfitproDB?retryWrites=true&w=majority&appName=webfitpro-cluster`
+   **You can use our MongoDB Connection String:**
+      ```bash
+   MONGODB_URI=mongodb+srv://User1:Group10@webfitpro-cluster.alf8p.mongodb.net/webfitproDB?retryWrites=true&w=majority&appName=webfitpro-cluster
+   ```
 
 ## 4. Running the Project
 
